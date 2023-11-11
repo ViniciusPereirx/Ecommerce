@@ -105,3 +105,36 @@ header {
   align-items: center;
   justify-content: center;
 }
+
+.home {
+  position: relative;
+  background: #f2f0f1;
+  min-height: 600px;
+}
+
+.home-img {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%);
+  display: flex;
+  justify-content: center;
+}
+
+.home-img img {
+  max-width: 600px;
+  width: 100%;
+}
+
+.home-img::before {
+  content: "Coloring Style";
+  font-size: 8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  position: absolute;
+  text-align: center;
+  top: -5px;
+  color: var(--main-color);
+  z-index: -1;
+}
