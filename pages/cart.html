@@ -3,9 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ecommerce</title>
+    <title>Cart</title>
     <!-- css -->
-    <link rel="stylesheet" href="./style/index.css" />
+    <link rel="stylesheet" href="../style/index.css" />
+    <link rel="stylesheet" href="../style/cart.css" />
     <!-- box icons -->
     <link
       rel="stylesheet"
@@ -23,7 +24,7 @@
         <!-- Menu Icon-->
         <i class="bx bx-menu" id="menu-icon"></i>
         <!-- Logo -->
-        <a href="index.html" class="logo">VPM</a>
+        <a href="../index.html" class="logo">VPM</a>
         <!-- Navbar -->
         <div class="navbar">
           <a href="#" class="nav-link">Mulheres</a>
@@ -32,24 +33,28 @@
           <a href="#" class="nav-link">Acessórios</a>
         </div>
         <!-- Cart Icon -->
-        <a href="pages/cart.html">
+        <a href="cart.html">
           <i class="bx bx-shopping-bag" id="cart-icon" data-quantity="0"></i>
         </a>
       </div>
     </header>
-    <!-- Home -->
-    <section class="home" id="home">
-      <div class="home-img container">
-        <img src="./assets/home.png" alt="" />
+    <!-- Cart -->
+    <section class="cart-container container">
+      <a href="../index.html" class="back-homepage">
+        <i class="bx bx-chevron-left"></i>
+        <span>Voltar</span>
+      </a>
+      <h2 class="cart-s-title">Compras do Carrinho</h2>
+      <div class="cart-box">
+        <div class="cart-data">
+          <div id="cartItems"></div>
+        </div>
+        <div class="cart-t">
+          <div id="cartTotal"></div>
+          <a href="#" class="checkout-btn">Caixa</a>
+        </div>
       </div>
     </section>
-    <!-- Produtos -->
-    <section class="products container" id="products">
-      <h2 class="heading">Descobrir Produto</h2>
-
-      <div class="product-container" id="productList"></div>
-    </section>
-
-    <script src="/js/index.js"></script>
+    <script src="../js/index.js"></script>
   </body>
 </html>

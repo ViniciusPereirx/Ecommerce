@@ -1,0 +1,48 @@
+@import url("https://fonts.googleapis.com/css2?family=Big+Shoulders+Text:wght@400;500;600;700;800;900&display=swap");
+
+:root {
+  --main-color: #273fa1;
+  --text-color: #000;
+  --bg-color: #fff;
+  --container-color: #1e1e2a;
+}
+
+.cart-container {
+  margin-top: 3rem !important;
+}
+
+.back-homepage {
+  display: flex;
+  align-items: center;
+}
+
+.back-homepage .bx {
+  font-size: 24px;
+  color: var(--text-color);
+}
+
+.back-homepage span {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.cart-s-title {
+  font-size: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.cart-box {
+  display: grid;
+  grid-template-columns: 80% 20%;
+  gap: 1rem;
+}
+
+.cartItems{
+    display: grid;
+    row-gap: 1rem;
+}
+
+.cart-item{
+    
+}
