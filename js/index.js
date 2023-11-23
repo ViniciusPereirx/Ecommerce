@@ -57,36 +57,102 @@ const products = [
   },
 ];
 
-// Pegar lista de produtos e elementos
+const productList = document.querySelector("#productList");
+const cartItemsElement = document.querySelector("#cartItems");
+const cartTotalElement = document.querySelector("#cartTotal");
 
-const productList = document.getElementById("productList");
-const cartItems = document.getElementById("cartItems");
-const cartTotal = document.getElementById("cartTotal");
+// Acessando localStorage
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
+// Renderizando Produtos
 function renderProducts() {
   productList.innerHTML = products
     .map(
       (product) => `
     <div class="product">
-        <img src="${product.image}" alt="${
-        product.title
-      }" class="product-img" />
-        <div class="product-info">
-        <h2 class="product-title">${product.title}</h2>
-        <p class="product-price">$ ${product.price.toFixed(2)}</p>
-        <a class="add-to-cart" data-id="${product.id}">Adicionar no carrinho</a>
-        </div>
-    </div>`
+    <img src="${product.image}" alt="${product.title}" class="product-img" />
+    <div class="product-info">
+      <h2 class="product-title">${product.title}</h2>
+      <p class="product-price">$${product.price.toFixed(2)}</p>
+      <a class="add-to-cart" data-id="${product.id}">Adicionar no carrinho</a>
+    </div>
+  </div>
+    `
     )
     .join("");
+
+  // Evento para adicionar produtos no carrinho
+  const addToCartButtons = document.getElementsByClassName("add-to-cart");
+  for (const element of addToCartButtons) {
+    const addToCartButton = element;
+    addToCartButton.addEventListener("click", addToCart);
+  }
 }
 
+// Adicionar no carrinho
+function addToCart(event) {
+  const productID = parseInt(event.target.dataset.id);
+  const product = products.find((product) => product.id === productID);
+
+  if (product) {
+    // If product already in cart
+    const exixtingItem = cart.find((item) => item.id === productID);
+
+    if (exixtingItem) {
+      exixtingItem.quantity++;
+    } else {
+      const cartItem = {
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        image: product.image,
+        quantity: 1,
+      };
+      cart.push(cartItem);
+    }
+    // Alterar texto do botão
+    event.target.textContent = "Adicionado";
+    saveToLocalStorage();
+    renderCartItems();
+    calculateProductsCart();
+  }
+}
+
+// Remover do carrinho
+function removeFromCart(ev) {
+  const productID = parseInt(ev.target.dataset.id);
+  cart = cart.filter((item) => item.id != productID);
+  saveToLocalStorage();
+  renderCartItems();
+  calculateProductsCart();
+}
+
+// Alterar valor da quantidade de produtos
+function changeQuantity(event) {
+  const productID = parseInt(event.target.dataset.id);
+  const quantity = parseInt(event.target.value);
+
+  if (quantity > 0) {
+    const cartItem = cart.find((item) => item.id === productID);
+    if (cartItem) {
+      cartItem.quantity = quantity;
+      saveToLocalStorage();
+      calculateProductsCart();
+    }
+  }
+}
+
+// Salvar produtos no localStorage
+function saveToLocalStorage() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+// Renderizar produtos adicionado no carrinho
 function renderCartItems() {
-  cartItems.innerHTML = cart
+  cartItemsElement.innerHTML = cart
     .map(
-      (item) => `<div class="cart-item">
+      (item) => `
+    <div class="cart-item">
     <img src="${item.image}" alt="${item.title}" />
     <div class="cart-item-info">
       <h2 class="cart-item-title">${item.title}</h2>
@@ -95,19 +161,40 @@ function renderCartItems() {
         type="number"
         name=""
         min="1"
-        value="${item.quatity}"
+        value="${item.quantity}"
         data-id="${item.id}"
       />
     </div>
-    <h2 class="cart-item-price">${item.price}</h2>
-    <button class="remove-from-cart" data-id="${item.id}">Remove</button>
-  </div>`
+    <h2 class="cart-item-price">$${item.price}</h2>
+    <button class="remove-from-cart" data-id="${item.id}">Remover</button>
+  </div>
+    `
     )
     .join("");
+  // Remover do carrinho
+  const removeButtons = document.getElementsByClassName("remove-from-cart");
+  for (const element of removeButtons) {
+    const removeButton = element;
+    removeButton.addEventListener("click", removeFromCart);
+  }
+
+  // Alterar valor da quantidade de produtos
+  const quantityInputs = document.querySelectorAll(".cart-item-quantity");
+  quantityInputs.forEach((input) => {
+    input.addEventListener("change", changeQuantity);
+  });
+}
+
+// Calcular produtos do carrinho
+function calculateProductsCart() {
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  cartTotalElement.textContent = `Total: ${total.toFixed(2)}`;
 }
 
 if (window.location.pathname.includes("cart.html")) {
   renderCartItems();
+  calculateProductsCart();
 } else {
   renderProducts();
 }
+calculateProductsCart();
