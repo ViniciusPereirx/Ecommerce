@@ -19,6 +19,14 @@ app.get("/cart.html", (req, res) => {
 });
 
 let stripeGateway = stripe(process.env.stripe_key);
+app.post("/stripe-checkout", async (req, res) => {
+  const session = await stripeGateway.checkout.session.create({
+    payment_method_type: ["card"],
+    mode: "payment",
+    success_url: `http://127.0.0.1:5500/public/pages/success.html`,
+    cancel_url: `http://127.0.0.1:5500/public/pages/cancel.html`,
+  });
+});
 
 app.listen(3000, () => {
   console.log("Servidor iniciado!");
